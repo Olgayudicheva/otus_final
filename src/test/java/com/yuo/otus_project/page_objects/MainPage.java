@@ -8,27 +8,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
-    final Logger LOGGER = LogManager.getLogger(MainPage.class);
+    final Logger LOGGER = LogManager.getLogger(MainPageWithAuth.class);
+    WebDriverWait wait;
 
-    By myMenu = new By.ByXPath("//div[@class=\"header2-menu\"]");
-    By privateCabinet = new By.ByXPath("//a[@title=\"Личный кабинет\"]");
+    public By byCourceButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//p[text()=\"Курсы\"]");
+    public By byTestingCourseButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//a[contains(@class, 'header2-menu__dropdown-link') and @title=\"Тестирование\"]");
 
     private final WebDriver driver;
-    public MainPage (WebDriver driver) {
+    public MainPage(WebDriver driver) {
         this.driver = driver;
-        WebDriverWait wait = new WebDriverWait(driver,10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(myMenu));
-        /*if (!"https://otus.ru/".equals(driver.getCurrentUrl())) {
-            throw new IllegalStateException("This is not the login page");
-        }
-        if (driver.findElements(bySignInButton).size()==0) {
-            throw new IllegalStateException("This is not the login page");
-        }*/
+        wait = new WebDriverWait(driver,10);
     }
-    public PrivateCabinetPage goToPrivateCabinet (){
-        LOGGER.info("---Переход в личный кабинет---");
-        driver.findElement(myMenu).click();
-        driver.findElement(privateCabinet).click();
-        return new PrivateCabinetPage(driver);
+
+    public void openCourceList() {
+        driver.findElement(byCourceButton).click();
+    }
+
+    public TestingCourcesPage openTestingCource() {
+        openCourceList();
+        driver.findElement(byTestingCourseButton).click();
+        return new TestingCourcesPage(driver);
     }
 }

@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Consumer;
 
-public class AuthPage {
-    final Logger LOGGER = LogManager.getLogger(AuthPage.class);
+public class MainPageWithoutAuth extends MainPage {
+    final Logger LOGGER = LogManager.getLogger(MainPageWithoutAuth.class);
     final WebDriverWait wait;
 
     By bySignInButton = new By.ByXPath("//button[@data-modal-id=\"new-log-reg\"]");
@@ -22,7 +22,8 @@ public class AuthPage {
 
     private final WebDriver driver;
 
-    public AuthPage(WebDriver driver) {
+    public MainPageWithoutAuth(WebDriver driver) {
+        super(driver);
         this.driver = driver;
         this.wait = new WebDriverWait(driver,10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(bySignInButton));
@@ -34,7 +35,7 @@ public class AuthPage {
         }
     }
 
-    public MainPage auth (String email, String password){
+    public MainPageWithAuth auth (String email, String password){
         LOGGER.info("---Авторизация---\n"+"email: "+email+"\npassword: "+password);
         driver.findElement(bySignInButton).click();
 
@@ -61,6 +62,6 @@ public class AuthPage {
                 System.out.println(cookie);
             }
         });
-        return new MainPage(driver);
+        return new MainPageWithAuth(driver);
     }
 }
