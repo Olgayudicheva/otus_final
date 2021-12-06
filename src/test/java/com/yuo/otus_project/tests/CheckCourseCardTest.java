@@ -67,6 +67,9 @@ public class CheckCourseCardTest {
         for (int i = 0; i < cardCount; i++) {
             try {
                 CourseCardPage courseCardPage = testingCourcesPage.openCard(i);
+                if (courseCardPage.type != CourseCardPage.Type.PROMO) {
+                    courseCardPage.checkMainField();
+                }
             } catch (Throwable t) {
                 t.printStackTrace();
                 failedCards.add(i);
