@@ -38,11 +38,6 @@ public class CheckDodEventsTest {
 
     @AfterEach
     void after() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         driver.quit();
     }
 

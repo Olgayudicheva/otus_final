@@ -19,7 +19,8 @@ public class TestingCourcesPage {
     private final WebDriver driver;
     public TestingCourcesPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byCourceCards));
     }
 
     public int getCourceCardsCount() {
