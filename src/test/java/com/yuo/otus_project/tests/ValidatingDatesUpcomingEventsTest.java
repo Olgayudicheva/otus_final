@@ -8,6 +8,7 @@ import com.yuo.otus_project.page_objects.TestingCourcesPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +17,9 @@ import org.openqa.selenium.remote.AbstractDriverOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ValidatingDatesUpcomingEventsTest {
     static final Logger LOGGER = LogManager.getLogger(ValidatingDatesUpcomingEventsTest.class);
@@ -52,7 +56,16 @@ public class ValidatingDatesUpcomingEventsTest {
         driver.get("https://otus.ru");
         MainPageWithoutAuth mainPageWithoutAuth = new MainPageWithoutAuth(driver);
         EventCalendarPage eventCalendarPage = mainPageWithoutAuth.openEventCalendar();
-        eventCalendarPage.getDatesUpcomingEvents();
+        List<Date> eventsDate = eventCalendarPage.getDatesUpcomingEvents();
+        Date currentDate = new Date();
+        List<Integer> failedDate = new ArrayList<>();
+        for (int i=0;i<eventsDate.size();i++) {
+            Date eventDate = eventsDate.get(i);
+            if (!eventDate.equals(currentDate) && eventDate.before(currentDate)) {
+                failedDate.add(i);
+            }
+        }
+        Assertions.assertTrue(failedDate.isEmpty(), "В событиях "+failedDate+" дата уже пройдена, либо будет в след году");
     }
 
 
@@ -65,6 +78,15 @@ public class ValidatingDatesUpcomingEventsTest {
         driver.get("https://otus.ru");
         MainPageWithAuth mainPageWithAuth = new MainPageWithoutAuth(driver).auth(System.getProperty("login"), System.getProperty("password"));
         EventCalendarPage eventCalendarPage = mainPageWithAuth.openEventCalendar();
-        eventCalendarPage.getDatesUpcomingEvents();
+        List<Date> eventsDate = eventCalendarPage.getDatesUpcomingEvents();
+        Date currentDate = new Date();
+        List<Integer> failedDate = new ArrayList<>();
+        for (int i=0;i<eventsDate.size();i++) {
+            Date eventDate = eventsDate.get(i);
+            if (!eventDate.equals(currentDate) && eventDate.before(currentDate)) {
+                failedDate.add(i);
+            }
+        }
+        Assertions.assertTrue(failedDate.isEmpty(), "В событиях "+failedDate+" дата уже пройдена, либо будет в след году");
     }
 }

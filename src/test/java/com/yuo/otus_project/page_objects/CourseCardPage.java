@@ -133,11 +133,4 @@ public class CourseCardPage {
                 return out;
         }
     }
-
-    public void checkMainField() {
-        Assertions.assertFalse(getTitle().isEmpty(), "Title is empty");
-        Assertions.assertFalse(getDescription().isEmpty(), "Description is empty");
-        Assertions.assertFalse(getLearnTime().isEmpty(), "Learn time is empty");
-        Assertions.assertFalse(getLearnFormat().isEmpty(), "Learn format is empty");
-    }
 }

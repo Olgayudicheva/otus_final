@@ -1,5 +1,6 @@
 package com.yuo.otus_project.page_objects;
 
+import com.yuo.otus_project.tools.MoveToElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.units.qual.A;
@@ -27,6 +28,10 @@ public class EventCalendarPage {
 
     By byUpcomingEventCards = new By.ByXPath("//div[@class=\"dod_new-event-content\"]");
     By byUpcomingEventCardDate = new By.ByXPath(".//span[@class=\"dod_new-event__date-text\"]");
+    By byUpcomingEventTypeSelect = new By.ByXPath("//span[contains(text(),\"Ближайшие мероприятия\")]/../div/div");
+    By byUpcomingEventDodTypeItem = new By.ByXPath("//span[contains(text(),\"Ближайшие мероприятия\")]/../div/div/..//a[contains(text(),\"ДОД\")]");
+
+    By byDodTitle = new By.ByXPath("//*[contains(text(), \"День открытых дверей\")]");
 
     private final WebDriver driver;
 
@@ -56,6 +61,34 @@ public class EventCalendarPage {
             }
         }
         return upcomingEvents;
+    }
+
+    public void openEventTypeFilter() {
+        driver.findElement(byUpcomingEventTypeSelect).click();
+    }
+
+    public void selectDodEventTypeFilter() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byUpcomingEventTypeSelect));
+        WebElement upcomingEventTypeSelect = driver.findElement(byUpcomingEventTypeSelect);
+        MoveToElement.scrollElementIntoMiddle(driver, upcomingEventTypeSelect);
+        upcomingEventTypeSelect.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byUpcomingEventDodTypeItem));
+        WebElement dodItem = upcomingEventTypeSelect.findElement(byUpcomingEventDodTypeItem);
+        dodItem.click();
+    }
+
+    public List<String> getCardTypeTitle() {
+        ArrayList<String> outArray = new ArrayList<>();
+
+        List<WebElement> upcomingEvents = getUpcomingEvents();
+
+        for (int cardIndex = 0; cardIndex < upcomingEvents.size(); cardIndex++) {
+            WebElement card = upcomingEvents.get(cardIndex);
+            String title = card.findElement(byDodTitle).getText();
+            LOGGER.info(title);
+            outArray.add(title);
+        }
+        return outArray;
     }
 
     public List<Date> getDatesUpcomingEvents() throws ParseException {
