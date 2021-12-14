@@ -42,7 +42,7 @@ public class CourseCardPage {
     private final WebDriver driver;
     public CourseCardPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,5);
+        wait = new WebDriverWait(driver,10);
         if (driver.findElements(byBasicHeader).isEmpty()) {
             type = Type.PROMO;
         } else if (!driver.findElements(byPreparatoryTitle).isEmpty()) {

@@ -16,6 +16,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.AbstractDriverOptions;
 import org.openqa.selenium.safari.SafariOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +27,7 @@ public class CheckCourseCardTest {
     static final Logger LOGGER = LogManager.getLogger(CheckCourseCardTest.class);
 
     WebDriver driver;
+    WebDriverWait wait;
 
     AbstractDriverOptions options(WebDriverFactory.WebDriverName webDriverName) {
         switch (webDriverName) {
@@ -53,11 +56,13 @@ public class CheckCourseCardTest {
                 if (courseCardPage.type != CourseCardPage.Type.PROMO) {
                     checkMainField(courseCardPage);
                 }
+                driver.navigate().back();
             } catch (Throwable t) {
                 t.printStackTrace();
                 failedCards.add(i);
             }
-            driver.navigate().back();
+            wait.until(ExpectedConditions.urlContains("testing"));
+            testingCourcesPage.waitLoad();
         }
         Assertions.assertTrue(failedCards.isEmpty(), "В карточках " + failedCards + " есть ошибки");
     }
@@ -73,6 +78,7 @@ public class CheckCourseCardTest {
     void withoutAuthTest() {
         WebDriverFactory.WebDriverName webDriverName = WebDriverFactory.WebDriverName.parseString(System.getProperty("browser"));
         driver = WebDriverFactory.create(webDriverName, options(webDriverName));
+        wait = new WebDriverWait(driver,10);
         driver.manage().window().maximize();
         driver.get("https://otus.ru");
         MainPageWithoutAuth mainPageWithoutAuth = new MainPageWithoutAuth(driver);
@@ -86,6 +92,7 @@ public class CheckCourseCardTest {
     void withAuthTest() {
         WebDriverFactory.WebDriverName webDriverName = WebDriverFactory.WebDriverName.parseString(System.getProperty("browser"));
         driver = WebDriverFactory.create(webDriverName, options(webDriverName));
+        wait = new WebDriverWait(driver,10);
         driver.manage().window().maximize();
         driver.get("https://otus.ru");
         MainPageWithAuth mainPageWithAuth = new MainPageWithoutAuth(driver).auth(System.getProperty("login"), System.getProperty("password"));

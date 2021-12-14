@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
@@ -11,7 +12,9 @@ public class MainPage {
     WebDriverWait wait;
 
     public By byCourceButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//p[text()=\"Курсы\"]");
-    public By byTestingCourseButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//a[contains(@class, 'header2-menu__dropdown-link') and @title=\"Тестирование\"]");
+    public By byTestingCourseButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//a[contains(@class, 'header2-menu__dropdown-link') and contains(@title,\"Тестирование\")]");
+    public By byTestingInUnActive = new By.ByXPath("//div[@class=\"nav__items course-categories__nav\"]//a[contains(@title,\"Тестирование\")]");
+    public By byTestingInActive = new By.ByXPath("//div[@class=\"nav__items course-categories__nav\"]//a[contains(@title,\"Тестирование\") and contains(@class, \"item_active\")]");
     public By byEventButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//p[text()=\"События\"]");
     public By byCalendarEventButton = new By.ByXPath("//div[contains(@class, 'header2-menu_main')]//a[contains(@class, 'header2-menu__dropdown-link') and @title=\"Календарь мероприятий\"]");
 
@@ -31,13 +34,18 @@ public class MainPage {
 
     public TestingCourcesPage openTestingCource() {
         openCourcePopup();
-        driver.findElement(byTestingCourseButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byTestingCourseButton));
+        wait.until(ExpectedConditions.elementToBeClickable(byTestingCourseButton)).click();
+        /*if (driver.findElements(byTestingInActive).size()==0) {
+            driver.findElement(byTestingInUnActive).click();
+        }*/
         return new TestingCourcesPage(driver);
     }
 
     public EventCalendarPage openEventCalendar() {
         openEventPopup();
-        driver.findElement(byCalendarEventButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byCalendarEventButton));
+        wait.until(ExpectedConditions.elementToBeClickable(byCalendarEventButton)).click();
         return new EventCalendarPage(driver);
     }
 }
