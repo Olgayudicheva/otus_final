@@ -28,6 +28,6 @@ test {
     useJUnitPlatform()
     systemProperty 'login', System.getProperty('login') ?: "test.olga123456@gmail.com"
     systemProperty 'password', System.getProperty('password') ?: "passpass1"
-    systemProperty 'browser', System.getProperty('browser') ?: "safari"
+    systemProperty 'browser', System.getProperty('browser') ?: "chrome"
     testLogging.showStandardStreams = true
 }
