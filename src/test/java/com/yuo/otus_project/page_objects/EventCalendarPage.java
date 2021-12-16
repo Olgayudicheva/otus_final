@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,7 +52,7 @@ public class EventCalendarPage {
             //actions.moveToElement(upcomingEvents.get(upcomingEvents.size() - 1)).perform();
             wait.until(ExpectedConditions.javaScriptThrowsNoExceptions("window.scrollTo(0, document.body.scrollHeight)"));
             try {
-                wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(byUpcomingEventCards, upcomingEvents.size()));
+                wait.withTimeout(Duration.ofSeconds(5)).until(ExpectedConditions.numberOfElementsToBeMoreThan(byUpcomingEventCards, upcomingEvents.size()));
             } catch (Throwable t) {} finally {
                 List<WebElement> newUpcomingEvents = driver.findElements(byUpcomingEventCards);
                 if (newUpcomingEvents.size() == upcomingEvents.size()) {

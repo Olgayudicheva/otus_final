@@ -61,7 +61,7 @@ public class CheckCourseCardTest {
                 t.printStackTrace();
                 failedCards.add(i);
             }
-            wait.until(ExpectedConditions.urlContains("testing"));
+            wait.until(ExpectedConditions.urlContains("/testing"));
             testingCourcesPage.waitLoad();
         }
         Assertions.assertTrue(failedCards.isEmpty(), "В карточках " + failedCards + " есть ошибки");

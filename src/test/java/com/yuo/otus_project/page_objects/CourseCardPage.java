@@ -38,11 +38,11 @@ public class CourseCardPage {
     public final Type type;
 
 
-
     private final WebDriver driver;
+
     public CourseCardPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,30);
+        wait = new WebDriverWait(driver, 30);
         if (driver.findElements(byBasicHeader).isEmpty()) {
             type = Type.PROMO;
         } else if (!driver.findElements(byPreparatoryTitle).isEmpty()) {
@@ -52,11 +52,11 @@ public class CourseCardPage {
         }
         LOGGER.info("---");
         LOGGER.info("Содержимое карточки");
-        LOGGER.info("Тип: "+type.toString());
-        LOGGER.info("Заголовок: "+getTitle());
-        LOGGER.info("Описание: "+getDescription());
-        LOGGER.info("Время: "+getLearnTime());
-        LOGGER.info("Формат: "+getLearnFormat());
+        LOGGER.info("Тип: " + type.toString());
+        LOGGER.info("Заголовок: " + getTitle());
+        LOGGER.info("Описание: " + getDescription());
+        LOGGER.info("Время: " + getLearnTime());
+        LOGGER.info("Формат: " + getLearnFormat());
         LOGGER.info("---");
     }
 
@@ -72,31 +72,28 @@ public class CourseCardPage {
                 return driver.findElement(byTitle).getText();
         }
     }
+
     public String getDescription() {
         String out = "";
         switch (type) {
             case PREPARATORY:
                 wait.until(ExpectedConditions.visibilityOfElementLocated(byPreparatoryIntoList));
                 List<WebElement> list = driver.findElements(byPreparatoryIntoList);
-                for (int i=0;i<list.size();i++) {
+                for (int i = 0; i < list.size(); i++) {
                     out += list.get(i).getText();
                 }
                 return out;
             case PROMO:
                 return "";
             default:
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(byShortDescription));
-                    out += driver.findElement(byShortDescription).getText();
-                } catch (Throwable t) {
-                    //t.printStackTrace();
-                }
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(bySubTitle));
-                    out += driver.findElement(bySubTitle).getText();
-                } catch (Throwable t) {
-                    //t.printStackTrace();
-                }
+
+                List<WebElement> shortDescription = driver.findElements(byShortDescription);
+                if (!shortDescription.isEmpty())
+                    out += shortDescription.get(0).getText();
+                List<WebElement> subTitles = driver.findElements(bySubTitle);
+                if (!subTitles.isEmpty())
+                    out += subTitles.get(0).getText();
+
                 return out;
         }
     }
@@ -127,7 +124,7 @@ public class CourseCardPage {
                 String out = "";
                 wait.until(ExpectedConditions.visibilityOfElementLocated(byLearnFormat));
                 List<WebElement> formats = driver.findElements(byLearnFormat);
-                for (int i=0; i< formats.size() ; i++) {
+                for (int i = 0; i < formats.size(); i++) {
                     out += formats.get(i).getText();
                 }
                 return out;

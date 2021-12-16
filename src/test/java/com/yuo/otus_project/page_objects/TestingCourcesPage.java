@@ -1,5 +1,6 @@
 package com.yuo.otus_project.page_objects;
 
+import com.yuo.otus_project.tools.MoveToElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
@@ -46,8 +47,9 @@ public class TestingCourcesPage {
     public CourseCardPage openCard(int position) {
         WebElement card = getCourceCards().get(position);
         Actions actions = new Actions(driver);
-        actions.moveToElement(card);
-        wait.until(ExpectedConditions.visibilityOf(card)).click();
+        MoveToElement.scrollElementIntoMiddle(driver, card);
+        card.click();
+        //wait.until(ExpectedConditions.visibilityOf(card)).click();
         LOGGER.info("Открыта карточка №"+position);
         return new CourseCardPage(driver);
     }
