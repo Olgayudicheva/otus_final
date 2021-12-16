@@ -17,7 +17,7 @@ public class MainPageWithAuth extends MainPage {
     public MainPageWithAuth(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.visibilityOfElementLocated(myMenu));
     }
     public PrivateCabinetPage goToPrivateCabinet (){

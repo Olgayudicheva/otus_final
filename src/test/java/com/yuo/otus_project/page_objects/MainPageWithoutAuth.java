@@ -25,7 +25,7 @@ public class MainPageWithoutAuth extends MainPage {
     public MainPageWithoutAuth(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        this.wait = new WebDriverWait(driver,10);
+        this.wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.visibilityOfElementLocated(bySignInButton));
         if (!"https://otus.ru/".equals(driver.getCurrentUrl())) {
             throw new IllegalStateException("This is not the login page");

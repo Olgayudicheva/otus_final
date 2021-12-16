@@ -21,7 +21,7 @@ public class MainPage {
     private final WebDriver driver;
     public MainPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,30);
     }
 
     public void openCourcePopup() {
@@ -34,18 +34,13 @@ public class MainPage {
 
     public TestingCourcesPage openTestingCource() {
         openCourcePopup();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(byTestingCourseButton));
-        wait.until(ExpectedConditions.elementToBeClickable(byTestingCourseButton)).click();
-        /*if (driver.findElements(byTestingInActive).size()==0) {
-            driver.findElement(byTestingInUnActive).click();
-        }*/
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byTestingCourseButton)).click();
         return new TestingCourcesPage(driver);
     }
 
     public EventCalendarPage openEventCalendar() {
         openEventPopup();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(byCalendarEventButton));
-        wait.until(ExpectedConditions.elementToBeClickable(byCalendarEventButton)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byCalendarEventButton)).click();
         return new EventCalendarPage(driver);
     }
 }

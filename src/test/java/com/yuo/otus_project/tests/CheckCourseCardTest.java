@@ -78,7 +78,7 @@ public class CheckCourseCardTest {
     void withoutAuthTest() {
         WebDriverFactory.WebDriverName webDriverName = WebDriverFactory.WebDriverName.parseString(System.getProperty("browser"));
         driver = WebDriverFactory.create(webDriverName, options(webDriverName));
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,30);
         driver.manage().window().maximize();
         driver.get("https://otus.ru");
         MainPageWithoutAuth mainPageWithoutAuth = new MainPageWithoutAuth(driver);
@@ -92,7 +92,7 @@ public class CheckCourseCardTest {
     void withAuthTest() {
         WebDriverFactory.WebDriverName webDriverName = WebDriverFactory.WebDriverName.parseString(System.getProperty("browser"));
         driver = WebDriverFactory.create(webDriverName, options(webDriverName));
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,30);
         driver.manage().window().maximize();
         driver.get("https://otus.ru");
         MainPageWithAuth mainPageWithAuth = new MainPageWithoutAuth(driver).auth(System.getProperty("login"), System.getProperty("password"));

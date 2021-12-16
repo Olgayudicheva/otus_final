@@ -23,7 +23,7 @@ public class TestingCourcesPage {
     public TestingCourcesPage(WebDriver driver) {
         this.driver = driver;
         LOGGER.info(driver.getCurrentUrl());
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,30);
         waitLoad();
         LOGGER.info(driver.findElement(byTitle).getText());
         Assertions.assertTrue(driver.findElement(byTitle).getText().contains("Тестирование"));
